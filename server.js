@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 
     res.send('hello')
 })
-//GET /api/stations/all
+// Level 1 quest : GET /api/stations/all
 app.get('/api/stations/all',(req,res)=>{
     let sql = "SELECT * FROM stations LIMIT 10;"
 
