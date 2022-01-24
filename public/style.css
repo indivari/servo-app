@@ -1,0 +1,14 @@
+.main-container{
+    font-family: 'Heebo', sans-serif;
+}
+
+.owners {
+    /* border: 1px solid red; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+   
+}
+.owner-item {
+    color: rgb(127, 22, 8);
+    
+}
