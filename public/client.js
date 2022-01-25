@@ -15,11 +15,22 @@ function initMap() {
 function createMarkers() {
   axios.get("/api/stations/all").then((res) => {
     res.data.forEach((station) => {
-      new google.maps.Marker({
+      let marker = new google.maps.Marker({
         position: { lat: station.latitude, lng: station.longitude },
         map: map,
         title: station.owner,
       });
+      const infowindow = new google.maps.InfoWindow({
+        content: `<h1 class="info-marker-title1">${station.name}</h1> <h4 class="info-marker-title2">${station.owner}</h4>`,
+      });
+    
+    marker.addListener('click', () => {
+        infowindow.open({
+            anchor: marker,
+            map,
+            shouldFocus: true,
+        })
+    })   
     });
   });
 }
