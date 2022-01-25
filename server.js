@@ -10,6 +10,7 @@ const pool = new Pool({
 });
 
 
+
 app.use(express.static('public'))
 
 app.get('/', (req, res) => {
@@ -18,7 +19,9 @@ app.get('/', (req, res) => {
 })
 // Level 1 quest : GET /api/stations/all
 app.get('/api/stations/all',(req,res)=>{
-    let sql = "SELECT * FROM stations LIMIT 5;"
+
+    let sql = "SELECT * FROM stations limit 10;"
+
 
     pool.query(sql, (err, dbRes) => {
         // console.log(dbRes);
@@ -27,6 +30,22 @@ app.get('/api/stations/all',(req,res)=>{
       });
 
 }) 
+
+app.get('/api/owners', (req, res) => {
+    let sql = "SELECT DISTINCT ON (owner) owner FROM stations;"
+
+    pool.query(sql, (err, dbRes) => {
+        res.json(dbRes.rows)
+    })
+})
+
+app.get('/api/stations/random', (req, res) => {
+    let sql = "SELECT * FROM stations order by random() LIMIT 1;"
+
+    pool.query(sql, (err, dbRes) => {
+        res.json(dbRes.rows)
+    })
+})
 
 app.listen(PORT, () => {
     console.log('server listening to 8080');
