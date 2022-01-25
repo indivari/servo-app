@@ -28,6 +28,14 @@ app.get('/api/stations/all',(req,res)=>{
 
 }) 
 
+app.get('/api/owners', (req, res) => {
+    let sql = "SELECT DISTINCT ON (owner) owner FROM stations;"
+
+    pool.query(sql, (err, dbRes) => {
+        res.json(dbRes.rows)
+    })
+})
+
 app.listen(PORT, () => {
     console.log('server listening to 8080');
 })
