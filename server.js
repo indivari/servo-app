@@ -36,6 +36,16 @@ app.get('/api/owners', (req, res) => {
     })
 })
 
+app.get('/api/stations/random', (req, res) => {
+    let randNum = Math.floor(Math.random() * 5234);
+
+    let sql = `SELECT * FROM stations WHERE id = ${randNum} LIMIT 1;`
+
+    pool.query(sql, (err, dbRes) => {
+        res.json(dbRes.rows)
+    })
+})
+
 app.listen(PORT, () => {
     console.log('server listening to 8080');
 })
