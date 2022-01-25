@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 // Level 1 quest : GET /api/stations/all
 app.get('/api/stations/all',(req,res)=>{
 
-    let sql = "SELECT * FROM stations limit 10;"
+    let sql = "SELECT * FROM stations limit 5;"
 
 
     pool.query(sql, (err, dbRes) => {
