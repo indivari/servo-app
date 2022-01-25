@@ -6,6 +6,15 @@ let map;
 
 function initMap() {
 
+<<<<<<< HEAD
+=======
+//declare a function
+//call axios with the endpoint
+//with the returned data create dom elements and append to the parent element
+
+const stationList = document.querySelector('.station-list')
+const stationDetail = document.querySelector('.station-detail')
+>>>>>>> f93cd0c (added api top 5 stations)
 
     map = new google.maps.Map(document.getElementById("map"), {
          zoom: 4,
@@ -32,4 +41,7 @@ function createMarkers() {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f93cd0c (added api top 5 stations)
