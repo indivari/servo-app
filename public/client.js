@@ -1,15 +1,32 @@
 // Initialize and add the map
+
+// import { MarkerClusterer } from "@googlemaps/markerclusterer";
+
+let map;
+
 function initMap() {
-    // The location of Uluru
-    const uluru = { lat: -25.344, lng: 131.036 };
-    // The map, centered at Uluru
-    const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 4,
-        center: uluru,
-    });
-    // The marker, positioned at Uluru
-    const marker = new google.maps.Marker({
-        position: uluru,
-        map: map,
-    });
-}
+    map = new google.maps.Map(document.getElementById("map"), {
+         zoom: 4,
+         center: { lat: -25.363, lng: 131.044 }
+     });
+    createMarkers()
+ 
+ }
+
+function createMarkers() {
+    axios.get('/api/stations/all').then(res => {
+        res.data.forEach(station => {
+            new google.maps.Marker({
+                position: {lat: station.latitude, lng: station.longitude},
+                map: map,
+                title: station.owner
+              });
+                
+            }
+        
+    
+        )}
+    )}
+
+
+

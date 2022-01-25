@@ -10,6 +10,7 @@ const pool = new Pool({
 });
 
 
+
 app.use(express.static('public'))
 
 app.get('/', (req, res) => {
@@ -18,7 +19,7 @@ app.get('/', (req, res) => {
 })
 // Level 1 quest : GET /api/stations/all
 app.get('/api/stations/all',(req,res)=>{
-    let sql = "SELECT * FROM stations LIMIT 10;"
+    let sql = "SELECT * FROM stations limit 10;"
 
     pool.query(sql, (err, dbRes) => {
         // console.log(dbRes);
