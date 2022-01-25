@@ -9,7 +9,8 @@ function initMap() {
     
 
   map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 4,
+    zoom: 13,
+    minZoom: 11,
     center: { lat: -25.363, lng: 131.044 },
   });
   createMarkers();
@@ -63,7 +64,7 @@ const getTop5Stations = () => {
     console.log(res.data);
     // console.log(res.rows)
     var stations = res.data;
-    stations.forEach((station) => {
+    for(let i=0; i<5; i++){
       const ulStation = document.createElement("ul");
       const liName = document.createElement("li");
       const liAddress = document.createElement("li");
@@ -73,15 +74,15 @@ const getTop5Stations = () => {
       liAddress.classList.add("bulletFreeList");
       liSuburb.classList.add("bulletFreeList");
 
-      liName.textContent = station.name;
-      liAddress.textContent = station.address;
-      liSuburb.textContent = station.suburb;
+      liName.textContent = stations[i].name;
+      liAddress.textContent = stations[i].address;
+      liSuburb.textContent = stations[i].suburb;
 
       ulStation.appendChild(liName);
       ulStation.appendChild(liAddress);
       ulStation.appendChild(liSuburb);
       stationDetail.appendChild(ulStation);
-    });
+    }
   });
 };
 window.onload = () => {
@@ -89,9 +90,10 @@ window.onload = () => {
 };
 
 function getStationStats() {
+  
   axios.get("http://localhost:8080/api/stats").then((res) => {
     const ownerDiv = document.querySelector(".owners");
-
+    
     res.data.forEach((station) => {
       const stationOwnerDiv = document.createElement("div");
       const stationStatDiv = document.createElement("div");
@@ -105,6 +107,20 @@ function getStationStats() {
       ownerDiv.appendChild(stationStatDiv);
     });
   });
+  
 }
 
 getStationStats();
+
+
+const getTotalStations = () => {
+  const totStations = document.querySelector('.tot-stations');
+
+  axios.get("http://localhost:8080/api/stations/all").then((res) => {
+
+
+    totStations.textContent = res.data.length;
+
+  })
+}
+getTotalStations();
