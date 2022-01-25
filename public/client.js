@@ -5,12 +5,27 @@
 let map;
 
 function initMap() {
+    
+    
+
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 4,
     center: { lat: -25.363, lng: 131.044 },
   });
   createMarkers();
-}
+    let pos = {}
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            pos.lat = position.coords.latitude,
+            pos.lng = position.coords.longitude
+            console.log(pos);
+            
+            map.setCenter(pos)
+          })
+    } 
+};
+  
 
 function createMarkers() {
   axios.get("/api/stations/all").then((res) => {
