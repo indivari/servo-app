@@ -3,6 +3,9 @@
 // import { MarkerClusterer } from "@googlemaps/markerclusterer";
 
 let map;
+const currentLat = document.querySelector('.current-lat')
+const currentLong = document.querySelector('.current-long')
+const currentAddress = document.querySelector('.current-address')
 
 function initMap() {
 
@@ -18,7 +21,9 @@ function initMap() {
           (position) => {
             pos.lat = position.coords.latitude,
             pos.lng = position.coords.longitude
-            console.log(pos);
+            // console.log(pos);
+            // console.log();
+            
             
             map.setCenter(pos)
           })
@@ -29,16 +34,27 @@ function initMap() {
 function createMarkers() {
   axios.get("/api/stations/all").then((res) => {
     res.data.forEach((station) => {
+
       let marker = new google.maps.Marker({
         position: { lat: station.latitude, lng: station.longitude },
         map: map,
         title: station.owner,
+        address: station.address,
+        // label: station.owner[0],
+      
       });
+      // console.log(marker.label)
       const infowindow = new google.maps.InfoWindow({
         content: `<h1 class="info-marker-title1">${station.name}</h1> <h4 class="info-marker-title2">${station.owner}</h4>`,
       });
-    
+      currentLat.textContent = map.getCenter().lat()
+      currentLong.textContent = map.getCenter().lng()
+      
     marker.addListener('click', () => {
+      currentLat.textContent = marker.position.lat()
+      currentLong.textContent = marker.position.lng()
+      currentAddress.textContent = marker.address
+      
         infowindow.open({
             anchor: marker,
             map,
@@ -59,7 +75,7 @@ const stationDetail = document.querySelector(".station-detail");
 
 const getTop5Stations = () => {
   axios.get("http://localhost:8080/api/stations/all").then((res) => {
-    console.log(res.data);
+    // console.log(res.data);
     // console.log(res.rows)
     var stations = res.data;
     for(let i=0; i<5; i++){
