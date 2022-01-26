@@ -3,64 +3,67 @@
 // import { MarkerClusterer } from "@googlemaps/markerclusterer";
 
 let map;
-const currentLat = document.querySelector('.current-lat')
-const currentLong = document.querySelector('.current-long')
-const currentAddress = document.querySelector('.current-address')
+const currentLat = document.querySelector(".current-lat");
+const currentLong = document.querySelector(".current-long");
+const currentAddress = document.querySelector(".current-address");
+
+function showCurrentAddress(address) {
+  currentAddress.textContent = address;
+}
+
+function showLatLng(lat, lng) {
+  currentLat.textContent = lat;
+  currentLong.textContent = lng;
+}
 
 function initMap() {
-
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 13,
     minZoom: 11,
     center: { lat: -25.363, lng: 131.044 },
   });
   createMarkers();
-    let pos = {}
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            pos.lat = position.coords.latitude,
-            pos.lng = position.coords.longitude
-            // console.log(pos);
-            // console.log();
-            
-            
-            map.setCenter(pos)
-          })
-    } 
-};
-  
+  let pos = {};
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      (pos.lat = position.coords.latitude),
+        (pos.lng = position.coords.longitude);
+      // console.log(pos);
+      // console.log();
+
+      map.setCenter(pos);
+    });
+  }
+}
 
 function createMarkers() {
   axios.get("/api/stations/all").then((res) => {
     res.data.forEach((station) => {
-
       let marker = new google.maps.Marker({
         position: { lat: station.latitude, lng: station.longitude },
         map: map,
         title: station.owner,
         address: station.address,
         // label: station.owner[0],
-      
       });
       // console.log(marker.label)
       const infowindow = new google.maps.InfoWindow({
         content: `<h1 class="info-marker-title1">${station.name}</h1> <h4 class="info-marker-title2">${station.owner}</h4>`,
       });
-      currentLat.textContent = map.getCenter().lat()
-      currentLong.textContent = map.getCenter().lng()
-      
-    marker.addListener('click', () => {
-      currentLat.textContent = marker.position.lat()
-      currentLong.textContent = marker.position.lng()
-      currentAddress.textContent = marker.address
-      
+
+      const center = map.getCenter();
+      showLatLng(center.lat(), center.lng());
+
+      marker.addListener("click", () => {
+        showLatLng(marker.position.lat(), marker.position.lng());
+        showCurrentAddress(marker.address);
+
         infowindow.open({
-            anchor: marker,
-            map,
-            shouldFocus: true,
-        })
-    })   
+          anchor: marker,
+          map,
+          shouldFocus: true,
+        });
+      });
     });
   });
 }
@@ -78,7 +81,7 @@ const getTop5Stations = () => {
     // console.log(res.data);
     // console.log(res.rows)
     var stations = res.data;
-    for(let i=0; i<5; i++){
+    for (let i = 0; i < 5; i++) {
       const ulStation = document.createElement("ul");
       const liName = document.createElement("li");
       const liAddress = document.createElement("li");
@@ -104,38 +107,48 @@ window.onload = () => {
 };
 
 function getStationStats() {
-  
-  
   axios.get("http://localhost:8080/api/stats").then((res) => {
     const tableBody = document.querySelector(".owners-table");
-    
+
     res.data.forEach((station) => {
-      const stationTable = document.createElement('tr')
+      const stationTable = document.createElement("tr");
       const stationOwnerTd = document.createElement("td");
       const stationStatTd = document.createElement("td");
       stationOwnerTd.textContent = station.owner;
       stationStatTd.textContent = station.count;
 
-      stationTable.appendChild(stationOwnerTd)
-      stationTable.appendChild(stationStatTd)
-      
+      stationTable.appendChild(stationOwnerTd);
+      stationTable.appendChild(stationStatTd);
+
       tableBody.appendChild(stationTable);
     });
   });
-   
 }
 
 getStationStats();
 
-
 const getTotalStations = () => {
-  const totStations = document.querySelector('.tot-stations');
+  const totStations = document.querySelector(".tot-stations");
 
   axios.get("http://localhost:8080/api/stations/all").then((res) => {
-
-
     totStations.textContent = res.data.length;
-
-  })
-}
+  });
+};
 getTotalStations();
+
+const getCurrentLocationAddress = () => {
+  navigator.geolocation.getCurrentPosition((position) => {
+    axios
+      .get(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&key=AIzaSyDoLvv-SV4N-eu04xRdHzGPSctSoJKhtIA`
+      )
+      .then((res) => {
+        console.log("address response is", res.data);
+        if (res?.data?.results && res.data.results.length > 0) {
+          showCurrentAddress(res.data.results[0].formatted_address);
+        }
+      });
+  });
+};
+
+getCurrentLocationAddress();
