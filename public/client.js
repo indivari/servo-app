@@ -91,23 +91,24 @@ window.onload = () => {
 
 function getStationStats() {
   
+  
   axios.get("http://localhost:8080/api/stats").then((res) => {
-    const ownerDiv = document.querySelector(".owners");
+    const tableBody = document.querySelector(".owners-table");
     
     res.data.forEach((station) => {
-      const stationOwnerDiv = document.createElement("div");
-      const stationStatDiv = document.createElement("div");
+      const stationTable = document.createElement('tr')
+      const stationOwnerTd = document.createElement("td");
+      const stationStatTd = document.createElement("td");
+      stationOwnerTd.textContent = station.owner;
+      stationStatTd.textContent = station.count;
 
-      stationOwnerDiv.classList.add("owner-item");
-      stationStatDiv.classList.add("owner-item");
-      stationOwnerDiv.textContent = station.owner;
-      stationStatDiv.textContent = station.count;
-
-      ownerDiv.appendChild(stationOwnerDiv);
-      ownerDiv.appendChild(stationStatDiv);
+      stationTable.appendChild(stationOwnerTd)
+      stationTable.appendChild(stationStatTd)
+      
+      tableBody.appendChild(stationTable);
     });
   });
-  
+   
 }
 
 getStationStats();
