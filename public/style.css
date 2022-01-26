@@ -1,6 +1,7 @@
 .main-container{
-    font-family: 'Heebo', sans-serif;
+    font-family: 'Be Vietnam Pro', sans-serif;
 }
+
 
 .owners {
     /* border: 1px solid red; */
@@ -28,12 +29,12 @@
 }
 
 .spotlight-btn {
-    background: none!important;
+    /* background: none!important;
     border: none;
     padding: 0!important;
     text-decoration: underline;
     cursor: pointer;
-    color: blue;
+    color: blue; */
   }
 .tot-stations {
     color: rgb(127, 22, 8);
@@ -46,3 +47,13 @@
     font-size: 20px;
     font-weight: 900;
 }
+
+.current-address {
+    color: rgb(127, 22, 8);
+    font-size: 12px;
+}
+.current-lat, .current-long {
+    color: rgb(127, 22, 8);
+    
+}
+

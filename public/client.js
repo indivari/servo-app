@@ -93,7 +93,7 @@ function getStationStats() {
   
   
   axios.get("http://localhost:8080/api/stats").then((res) => {
-    const tableBody = document.querySelector(".ownerst");
+    const tableBody = document.querySelector(".owners-table");
     
     res.data.forEach((station) => {
       const stationTable = document.createElement('tr')
