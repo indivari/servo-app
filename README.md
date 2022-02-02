@@ -23,7 +23,7 @@ This is a single page web app which can be used to find petrol stations nearby.
 
 - seeding the database
 
-You can seed the database with the data from the `./data/PetrolStations_v1.csv` using the seeder script.
+You can seed the database with the data from the `./data/PetrolStations_v1.csv` using the seed_db script.
 
-1. create the database by executing the `create-database.sql` on `psql` first.
+1. create the database by executing the commands in `create-database.sql` on `psql` first.
 2. Seed the database by executing `npm run seed_db`.
