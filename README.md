@@ -1,6 +1,6 @@
 # SERVO APP
 
-This is a single page app which can be used to find petrol stations nearby. 
+This is a single page web app which can be used to find petrol stations nearby. 
 
 ## Technologies used
 
