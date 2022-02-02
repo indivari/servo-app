@@ -9,6 +9,7 @@ This is a single page web app which can be used to find petrol stations nearby.
 - Express Js
 - Ajax
 - PostgreSQL
+- RESTful API
 - Google maps API
 
 ## Main features
